@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { navigate } from 'gatsby-link';
 import styled from 'styled-components';
+
+import useStore from '../context/StoreContext';
+
 import PrimaryButton from '../components/PrimaryButton';
+import Layout from '../components/layout';
 
 const Product = ({ pageContext }) => {
   const { product } = pageContext;
 
+  const { addVariantToCart } = useStore();
+
+  const [quantity, setQuantity] = useState(1);
+
+  const handleUpdateQuantity = (e) => {
+    setQuantity(e.target.value);
+  };
+
   return (
-    <div>
+    <Layout>
       <BackButton onClick={() => navigate(-1)}>{'< '} Back</BackButton>
       <Wrapper>
         <Image src={product.images[0]?.src} />
@@ -19,15 +31,21 @@ const Product = ({ pageContext }) => {
             <Subtitle>
               <label htmlFor="qty">Quantity:</label>
             </Subtitle>
-            <Input placeholder="1" id="qty" type="number" defaultValue={1} />
+            <Input
+              placeholder="1"
+              id="qty"
+              type="number"
+              value={quantity}
+              onChange={handleUpdateQuantity}
+            />
           </InputForm>
           <PrimaryButton
             text="Add to cart"
-            onClick={() => alert('Added to cart!')}
+            onClick={() => addVariantToCart(product, quantity)}
           />
         </InfoContainer>
       </Wrapper>
-    </div>
+    </Layout>
   );
 };
 

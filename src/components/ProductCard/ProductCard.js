@@ -1,6 +1,8 @@
 import React from 'react';
 import { navigate } from 'gatsby-link';
 
+import useStore from '../../context/StoreContext';
+
 import {
   Wrapper,
   AddButton,
@@ -12,9 +14,11 @@ import {
 } from './style';
 
 const ProductCard = ({ product }) => {
+  const { addVariantToCart } = useStore();
+
   return (
     <Wrapper>
-      <AddButton onClick={() => alert('Added to cart!')}>
+      <AddButton onClick={() => addVariantToCart(product, 1)}>
         <p>+</p>
       </AddButton>
       <ContentWrapper onClick={() => navigate(`/product/${product.id}`)}>

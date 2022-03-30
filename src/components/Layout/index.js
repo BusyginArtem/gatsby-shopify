@@ -29,10 +29,10 @@ const Layout = ({ pageTitle, children }) => {
             <StyledLink to="/">Home</StyledLink>
           </NavLinkItem>
           <NavLinkItem>
-            <StyledLink to="/about">About</StyledLink>
+            <StyledLink to="/products">Products</StyledLink>
           </NavLinkItem>
           <NavLinkItem>
-            <StyledLink to="/products">Products</StyledLink>
+            <StyledLink to="/cart">Cart</StyledLink>
           </NavLinkItem>
         </NavLinks>
       </nav>
