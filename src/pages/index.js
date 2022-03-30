@@ -6,7 +6,6 @@ const IndexPage = () => {
   return (
     <main style={pageStyles}>
       <title>Home Page</title>
-
       <h1 style={headingStyles}>
         Congratulations
         <br />
