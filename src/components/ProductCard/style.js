@@ -50,12 +50,12 @@ export const Price = styled.p`
 
 export const AddButton = styled.div`
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 15px;
+  right: 15px;
   background: #014c40;
   padding: 10px;
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   display: flex;
   justify-content: center;

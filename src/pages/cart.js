@@ -7,7 +7,7 @@ import PrimaryButton from '../components/PrimaryButton';
 import useStore from '../context/StoreContext';
 
 const Cart = () => {
-  const { cart } = useStore();
+  const { cart, checkout } = useStore();
   console.log('%c cart', 'color: green; font-weight: bold;', cart);
   return (
     <Layout>
@@ -27,7 +27,8 @@ const Cart = () => {
         <ButtonWrapper>
           <PrimaryButton
             text="Checkout"
-            onClick={() => console.log('Redirect to checkout page')}
+            onClick={() => window.open(checkout.webUrl)}
+            disabled={cart.length === 0}
           />
         </ButtonWrapper>
       </Wrapper>

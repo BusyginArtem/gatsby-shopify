@@ -13,9 +13,16 @@ const Product = ({ pageContext }) => {
   const { addVariantToCart } = useStore();
 
   const [quantity, setQuantity] = useState(1);
+  const [variantIdx, setVariantIdx] = useState(0);
+  const [price, setPrice] = useState(product.variants[0].price);
 
-  const handleUpdateQuantity = (e) => {
-    setQuantity(e.target.value);
+  const handleUpdateQuantity = ({ target }) => {
+    setQuantity(target.value);
+  };
+
+  const handleChangeSize = ({ target }) => {
+    setVariantIdx(target.value);
+    setPrice(product.variants[target.value].price);
   };
 
   return (
@@ -25,8 +32,22 @@ const Product = ({ pageContext }) => {
         <Image src={product.images[0]?.src} />
         <InfoContainer>
           <Title>{product.title}</Title>
-          <Subtitle>{product.priceRangeV2.maxVariantPrice.amount}0$</Subtitle>
+          <Subtitle>{price}0$</Subtitle>
           <p>{product.description}</p>
+          {product.variants > 1 && (
+            <InputForm>
+              <Subtitle>
+                <label htmlFor="qty">Size:</label>
+              </Subtitle>
+              <select value={variantIdx} onChange={handleChangeSize}>
+                {product.variants.map((variant, idx) => (
+                  <option key={variant.title} value={idx}>
+                    {variant.title}
+                  </option>
+                ))}
+              </select>
+            </InputForm>
+          )}
           <InputForm>
             <Subtitle>
               <label htmlFor="qty">Quantity:</label>
@@ -41,7 +62,7 @@ const Product = ({ pageContext }) => {
           </InputForm>
           <PrimaryButton
             text="Add to cart"
-            onClick={() => addVariantToCart(product, quantity)}
+            onClick={() => addVariantToCart({ product, quantity, variantIdx })}
           />
         </InfoContainer>
       </Wrapper>

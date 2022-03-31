@@ -28,6 +28,8 @@ export const query = graphql`
         handle
         variants {
           shopifyId
+          price
+          title
         }
         priceRangeV2 {
           maxVariantPrice {

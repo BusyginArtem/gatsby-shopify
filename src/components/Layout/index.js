@@ -1,6 +1,7 @@
 import React from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 
+import useStore from '../../context/StoreContext.js';
 import {
   Container,
   Heading,
@@ -10,6 +11,8 @@ import {
 } from './style.js';
 
 const Layout = ({ pageTitle, children }) => {
+  const { cart } = useStore();
+
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {

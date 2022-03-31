@@ -73,16 +73,16 @@ export const StoreProvider = ({ children }) => {
     initializeCheckout();
   }, []);
 
-  const addVariantToCart = async (product, quantity) => {
+  const addVariantToCart = async ({ product, quantity, variantIdx }) => {
     setLoading(true);
 
     if (checkout.id === '') {
       console.error('No checkout ID assigned.');
       return;
     }
-    console.log('%c product', 'color: green; font-weight: bold;', product);
+
     const checkoutID = checkout.id;
-    const variantId = product.variants[0]?.shopifyId;
+    const variantId = product.variants[variantIdx]?.shopifyId;
     const parsedQuantity = parseInt(quantity, 10);
 
     const lineItemsToUpdate = [
@@ -97,33 +97,33 @@ export const StoreProvider = ({ children }) => {
         checkoutID,
         lineItemsToUpdate
       );
-      console.log(
-        '%c addVariantToCart res',
-        'color: green; font-weight: bold;',
-        res
-      );
+
       setCheckout(res);
 
       let updatedCart = [];
       if (cart.length > 0) {
         const itemIsInCart = cart.find(
-          (item) => item.product.variants[0]?.shopifyId === variantId
+          (item) => item.product.variants[variantIdx]?.shopifyId === variantId
         );
 
         if (itemIsInCart) {
           const newProduct = {
             product: { ...itemIsInCart.product },
             quantity: itemIsInCart.quantity + parsedQuantity,
+            variantIdx,
           };
           const otherItems = cart.filter(
-            (item) => item.product.variants[0]?.shopifyId !== variantId
+            (item) =>
+              item.product.variants?.[variantIdx]?.shopifyId !== variantId
           );
           updatedCart = [...otherItems, newProduct];
         } else {
-          updatedCart = cart.concat([{ product, quantity: parsedQuantity }]);
+          updatedCart = cart.concat([
+            { product, quantity: parsedQuantity, variantIdx },
+          ]);
         }
       } else {
-        updatedCart = [{ product, quantity: parsedQuantity }];
+        updatedCart = [{ product, quantity: parsedQuantity, variantIdx }];
       }
       setCart(updatedCart);
 
@@ -154,11 +154,7 @@ export const StoreProvider = ({ children }) => {
       const res = await client.checkout.removeLineItems(checkout.id, [
         lineItemID,
       ]);
-      console.log(
-        '%c removeLineItem res',
-        'color: green; font-weight: bold;',
-        res
-      );
+
       setCheckout(res);
 
       const updatedCart = cart.filter(

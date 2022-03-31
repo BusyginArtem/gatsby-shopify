@@ -18,7 +18,11 @@ const ProductCard = ({ product }) => {
 
   return (
     <Wrapper>
-      <AddButton onClick={() => addVariantToCart(product, 1)}>
+      <AddButton
+        onClick={() =>
+          addVariantToCart({ product, quantity: 1, variantIdx: 0 })
+        }
+      >
         <p>+</p>
       </AddButton>
       <ContentWrapper onClick={() => navigate(`/product/${product.id}`)}>
